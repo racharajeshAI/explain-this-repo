@@ -707,29 +707,95 @@
   </footer>
 
   <script>
-    const demos = {
-      'https://github.com/fastapi/fastapi': `<strong>fastapi/fastapi</strong><br><br>Imagine you're ordering food at a restaurant. You tell the waiter what you want, the kitchen makes it, and it arrives at your table hot and correct. <span class="highlight">FastAPI is like that waiter for apps on your phone or website.</span> It takes requests, sends them to the right place, and brings back the answer — really, really fast.`,
+    const templates = [
+      (r) => `Okay so <strong>${r.full_name}</strong> is basically ${guessPurpose(r)}. <span class="highlight">It has ${formatStars(r.stargazers_count)} stars on GitHub</span> and is mostly written in ${r.language || 'various languages'}. ${describeVibe(r)}`,
+      (r) => `Think of <strong>${r.name}</strong> as ${guessPurpose(r)}. <span class="highlight">${describeVibe(r)}</span> It's got ${formatStars(r.stargazers_count)} stars, so people clearly find it useful.`,
+      (r) => `Alright so <strong>${r.name}</strong> — ${guessPurpose(r)}. <span class="highlight">${describeVibe(r)}</span> ${formatStars(r.stargazers_count)} stars and counting.`
+    ];
 
-      'https://github.com/facebook/react': `<strong>facebook/react</strong><br><br>Think of building a website like building with LEGO. You make small pieces — a button, a header, a list — and snap them together. <span class="highlight">React is the instruction booklet that tells the pieces how to work together</span> and how to update themselves when something changes, without rebuilding the whole thing.`,
+    function guessPurpose(r) {
+      const desc = (r.description || '').toLowerCase();
+      const lang = (r.language || '').toLowerCase();
+      const topics = (r.topics || []).map(t => t.toLowerCase());
+      const name = r.name.toLowerCase();
 
-      'https://github.com/torvalds/linux': `<strong>torvalds/linux</strong><br><br>You know how your phone, your laptop, and most of the internet's servers all need something to make the hardware actually work? <span class="highlight">Linux is that something.</span> It's the engine under the hood. Most of the world's computers run on it, even if you've never heard of it.`,
+      if (desc.includes('api') && desc.includes('framework')) return 'a framework that helps you build web APIs really fast — like a restaurant waiter for your code, taking requests and bringing back answers';
+      if (desc.includes('library') && desc.includes('ui')) return 'a toolkit for building user interfaces — think LEGO for websites, you snap pieces together and it handles the rest';
+      if (desc.includes('cli') || desc.includes('command line')) return 'a command-line tool — you type stuff in your terminal and it does the heavy lifting for you';
+      if (desc.includes('bot') || desc.includes('automation')) return 'an automation tool that does repetitive stuff so you don\'t have to — like a little robot assistant';
+      if (desc.includes('ai') || desc.includes('machine learning') || desc.includes('llm')) return 'an AI/ML tool — it uses machine learning to do smart things that would take humans way longer';
+      if (desc.includes('scraper') || desc.includes('crawler') || desc.includes('scraping')) return 'a web scraper — it goes to websites and grabs information for you automatically';
+      if (desc.includes('dashboard') || desc.includes('admin')) return 'a dashboard/admin panel — basically a control center where you can see and manage everything in one place';
+      if (desc.includes('template') || desc.includes('boilerplate') || desc.includes('starter')) return 'a starter template — gives you a head so you don\'t start from scratch every time';
+      if (desc.includes('test') || desc.includes('testing')) return 'a testing tool — it checks if your code actually works the way you think it does';
+      if (desc.includes('deploy') || desc.includes('devops') || desc.includes('infrastructure')) return 'a deployment/infrastructure tool — it helps you get your code from your laptop to the internet';
+      if (desc.includes('mobile') || desc.includes('ios') || desc.includes('android')) return 'a mobile app tool — helps build stuff for phones';
+      if (desc.includes('data') || desc.includes('analytics')) return 'a data tool — it helps you collect, process, or understand information';
+      if (desc.includes('security') || desc.includes('auth')) return 'a security/auth tool — it keeps the bad guys out and makes sure only the right people get in';
+      if (desc.includes('game')) return 'a game or game engine — for making fun things instead of boring business software';
+      if (topics.includes('machine-learning') || topics.includes('deep-learning') || topics.includes('ai')) return 'an AI/ML project — it uses machine learning to do smart stuff';
+      if (lang === 'python') return 'a Python project — it does useful things and Python makes it readable enough that you can almost follow along';
+      if (lang === 'javascript' || lang === 'typescript') return 'a JavaScript/TypeScript project — probably related to web stuff, because everything in JS eventually is';
+      if (lang === 'rust') return 'a Rust project — fast and memory-safe, the developer probably mentions this every 5 minutes';
+      if (lang === 'go') return 'a Go project — built for speed and simplicity, probably handles some kind of server or network thing';
+      if (lang === 'java') return 'a Java project — enterprise-y, robust, probably has a very long README';
+      if (desc.length > 10) return `a tool that ${desc.charAt(0).toLowerCase() + desc.slice(1, 80)}${desc.length > 80 ? '...' : ''}`;
+      if (name.includes('bot')) return 'a bot — it automates stuff so you don\'t have to sit there clicking buttons all day';
+      if (name.includes('api')) return 'an API — it helps different programs talk to each other';
+      if (name.includes('ui') || name.includes('design')) return 'a UI/design tool — makes things look pretty and work well';
+      return 'a software project that does something useful. The kind of thing where once you see it working, you go "oh, that\'s actually pretty clever"';
+    }
 
-      'default': `<strong>That repo</strong><br><br>Okay so this is basically a tool that helps people do <span class="highlight">[specific thing]</span> without needing to understand all the technical stuff under the hood. Think of it like a translator — it takes complicated code and turns it into something your brain can actually process. Pretty neat, honestly.`
-    };
+    function describeVibe(r) {
+      const stars = r.stargazers_count;
+      const desc = (r.description || '').toLowerCase();
 
-    function runDemo() {
+      if (stars > 50000) return 'Basically everyone uses this. It\'s one of those projects that quietly runs half the internet.';
+      if (stars > 10000) return 'Very popular among developers. If you\'ve used modern software, chances are this was involved somewhere.';
+      if (stars > 1000) return 'Solid following — developers seem to really like it.';
+      if (stars > 100) return 'Growing community. People are discovering it and sticking around.';
+      if (stars > 10) return 'Still early but the people who found it seem excited about it.';
+      return 'Fresh out of the oven. Every big project started with zero stars once.';
+    }
+
+    function formatStars(n) {
+      if (n >= 1000) return (n / 1000).toFixed(1).replace('.0', '') + 'k';
+      return n.toString();
+    }
+
+    async function runDemo() {
       const url = document.getElementById('demoUrl').value.trim();
       const output = document.getElementById('demoOutput');
+
+      const match = url.match(/github\.com\/([^\/]+)\/([^\/\?#]+)/);
+      if (!match) {
+        output.innerHTML = '<span style="color: #ff6b6b;">That doesn\'t look like a GitHub URL. Try something like: github.com/owner/repo</span>';
+        return;
+      }
+
+      const [, owner, repo] = match;
       output.innerHTML = '<span class="typing">reading repo...</span>';
 
-      setTimeout(() => {
-        output.innerHTML = '<span class="typing">translating jargon...</span>';
-      }, 600);
+      try {
+        const resp = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
+        if (!resp.ok) {
+          output.innerHTML = `<span style="color: #ff6b6b;">Couldn't find that repo. Double-check the URL?</span>`;
+          return;
+        }
+        const data = await resp.json();
 
-      setTimeout(() => {
-        const key = Object.keys(demos).find(k => url.includes(k.replace('https://github.com/', '')));
-        output.innerHTML = demos[key] || demos['default'];
-      }, 1400);
+        setTimeout(() => {
+          output.innerHTML = '<span class="typing">translating jargon...</span>';
+        }, 400);
+
+        setTimeout(() => {
+          const template = templates[Math.floor(Math.random() * templates.length)];
+          output.innerHTML = template(data);
+        }, 1200);
+
+      } catch (err) {
+        output.innerHTML = '<span style="color: #ff6b6b;">Something went wrong. Maybe rate-limited? Try again in a bit.</span>';
+      }
     }
   </script>
 
