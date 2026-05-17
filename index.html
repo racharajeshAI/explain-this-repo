@@ -10,32 +10,35 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --pink: #ff2d78;
-      --purple: #7c3aed;
-      --blue: #3b82f6;
-      --cyan: #06b6d4;
-      --green: #10b981;
-      --yellow: #f59e0b;
-      --bg: #0a0a0f;
-      --card: #12121a;
-      --border: #1e1e2e;
+      --pink: #f5c6d0;
+      --purple: #d4c4e0;
+      --blue: #b5d4e8;
+      --cyan: #b8e4d8;
+      --green: #c5ddb8;
+      --yellow: #f0e2b0;
+      --bg: #fdf8f0;
+      --card: #fffdf8;
+      --border: #e8ddd0;
+      --text: #4a3f35;
+      --text-muted: #8a7e72;
+      --text-dim: #b5a99a;
     }
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
       background: var(--bg);
-      color: #e0e0e0;
+      color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
     }
 
-    a { color: var(--cyan); text-decoration: none; }
+    a { color: #9b7db8; text-decoration: none; }
 
     .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
     /* FLOATING ORBS */
     .orbs { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.15; animation: float 20s ease-in-out infinite; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.2; animation: float 20s ease-in-out infinite; }
     .orb-1 { width: 400px; height: 400px; background: var(--pink); top: -100px; left: -100px; }
     .orb-2 { width: 300px; height: 300px; background: var(--purple); top: 50%; right: -80px; animation-delay: -7s; }
     .orb-3 { width: 350px; height: 350px; background: var(--cyan); bottom: -50px; left: 30%; animation-delay: -14s; }
@@ -51,50 +54,89 @@
     nav {
       position: sticky; top: 0; z-index: 100;
       padding: 16px 0;
-      background: rgba(10, 10, 15, 0.8);
+      background: rgba(253, 248, 240, 0.85);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
     nav .container { display: flex; justify-content: space-between; align-items: center; }
     .nav-logo {
       font-size: 1.1rem; font-weight: 900;
-      background: linear-gradient(135deg, var(--pink), var(--purple));
+      background: linear-gradient(135deg, #b89ac7, #d4a0b0);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .nav-links { display: flex; gap: 24px; }
-    .nav-links a { font-size: 0.85rem; color: #666; transition: color 0.3s; }
-    .nav-links a:hover { color: var(--cyan); }
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+    .nav-links a { font-size: 0.85rem; color: var(--text-muted); transition: color 0.3s; }
+    .nav-links a:hover { color: #9b7db8; }
+    .settings-btn {
+      background: none; border: 1px solid var(--border); border-radius: 8px;
+      padding: 6px 12px; font-size: 0.8rem; color: var(--text-muted);
+      cursor: pointer; font-family: inherit; transition: all 0.3s;
+    }
+    .settings-btn:hover { border-color: #d4c4e0; color: #9b7db8; }
 
-    /* HERO - the demo IS the hero */
+    /* HERO */
     .hero { position: relative; z-index: 1; padding: 80px 0 40px; text-align: center; }
     .hero h1 {
       font-size: 3rem; font-weight: 900; line-height: 1.1;
       margin-bottom: 16px; letter-spacing: -2px;
     }
     .hero h1 .grad {
-      background: linear-gradient(135deg, var(--pink), var(--purple), var(--cyan));
+      background: linear-gradient(135deg, #b89ac7, #d4a0b0, #b8e4d8);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .hero p { font-size: 1.05rem; color: #777; max-width: 480px; margin: 0 auto 40px; }
+    .hero p { font-size: 1.05rem; color: var(--text-muted); max-width: 480px; margin: 0 auto 40px; }
+
+    /* SETTINGS PANEL */
+    .settings-panel {
+      position: relative; z-index: 1; max-width: 700px; margin: 0 auto 30px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 0;
+      overflow: hidden; max-height: 0; opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+    }
+    .settings-panel.open { max-height: 400px; opacity: 1; padding: 24px; }
+    .settings-panel h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 16px; }
+    .setting-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .setting-row label { font-size: 0.85rem; color: var(--text-muted); min-width: 100px; }
+    .setting-row input[type="text"], .setting-row input[type="url"] {
+      flex: 1; background: #f8f3eb; border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 14px; color: var(--text);
+      font-size: 0.85rem; font-family: 'Inter', monospace; outline: none;
+      transition: border-color 0.3s;
+    }
+    .setting-row input:focus { border-color: #d4c4e0; }
+    .toggle-wrap { display: flex; align-items: center; gap: 10px; }
+    .toggle {
+      position: relative; width: 44px; height: 24px; background: #ddd0c0;
+      border-radius: 12px; cursor: pointer; transition: background 0.3s;
+    }
+    .toggle.active { background: #b89ac7; }
+    .toggle::after {
+      content: ''; position: absolute; top: 3px; left: 3px;
+      width: 18px; height: 18px; background: white; border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    .toggle.active::after { transform: translateX(20px); }
+    .setting-note { font-size: 0.78rem; color: var(--text-dim); margin-top: 4px; }
 
     /* MAIN DEMO */
     .demo-wrap { position: relative; z-index: 1; max-width: 700px; margin: 0 auto 60px; }
     .demo-box {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 20px; overflow: hidden;
-      box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+      box-shadow: 0 10px 40px rgba(180, 160, 140, 0.12);
     }
     .demo-bar {
       display: flex; align-items: center; gap: 8px;
       padding: 14px 20px;
-      background: rgba(255,255,255,0.02);
+      background: #f8f3eb;
       border-bottom: 1px solid var(--border);
     }
     .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
-    .demo-dot:nth-child(1) { background: #ff5f57; }
-    .demo-dot:nth-child(2) { background: #ffbd2e; }
-    .demo-dot:nth-child(3) { background: #28ca41; }
-    .demo-bar span { margin-left: 10px; font-size: 0.78rem; color: #555; }
+    .demo-dot:nth-child(1) { background: #f5c6d0; }
+    .demo-dot:nth-child(2) { background: #f0e2b0; }
+    .demo-dot:nth-child(3) { background: #c5ddb8; }
+    .demo-bar span { margin-left: 10px; font-size: 0.78rem; color: var(--text-dim); }
 
     .demo-input-area {
       padding: 20px 24px;
@@ -103,23 +145,23 @@
     }
     .demo-input-area input {
       flex: 1;
-      background: #0a0a12; border: 1px solid var(--border);
+      background: #f8f3eb; border: 1px solid var(--border);
       border-radius: 10px; padding: 14px 16px;
-      color: #e0e0e0; font-size: 0.92rem;
+      color: var(--text); font-size: 0.92rem;
       font-family: 'Inter', monospace; outline: none;
       transition: border-color 0.3s;
     }
-    .demo-input-area input:focus { border-color: var(--purple); }
-    .demo-input-area input::placeholder { color: #444; }
+    .demo-input-area input:focus { border-color: #d4c4e0; }
+    .demo-input-area input::placeholder { color: var(--text-dim); }
     .demo-go {
-      background: linear-gradient(135deg, var(--pink), var(--purple));
+      background: linear-gradient(135deg, #b89ac7, #d4a0b0);
       color: #fff; border: none; border-radius: 10px;
       padding: 14px 24px; font-weight: 700; font-size: 0.92rem;
       cursor: pointer; font-family: inherit;
       transition: transform 0.2s, box-shadow 0.2s;
       white-space: nowrap;
     }
-    .demo-go:hover { transform: scale(1.03); box-shadow: 0 0 30px rgba(124, 58, 237, 0.4); }
+    .demo-go:hover { transform: scale(1.03); box-shadow: 0 0 20px rgba(184, 154, 199, 0.3); }
     .demo-go:disabled { opacity: 0.5; cursor: wait; transform: none; }
 
     .demo-output {
@@ -127,42 +169,42 @@
       min-height: 180px;
       font-size: 0.95rem; line-height: 1.7;
     }
-    .demo-output .placeholder { color: #444; text-align: center; padding: 40px 0; }
-    .demo-output .loading { color: var(--cyan); display: flex; align-items: center; gap: 10px; justify-content: center; padding: 40px 0; }
+    .demo-output .placeholder { color: var(--text-dim); text-align: center; padding: 40px 0; }
+    .demo-output .loading { color: #9b7db8; display: flex; align-items: center; gap: 10px; justify-content: center; padding: 40px 0; }
     .demo-output .loading .spinner {
       width: 18px; height: 18px; border: 2px solid var(--border);
-      border-top-color: var(--cyan); border-radius: 50%;
+      border-top-color: #9b7db8; border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .demo-output .result { animation: fadeIn 0.4s ease-out; }
-    .demo-output .result h3 { color: #fff; font-size: 1.1rem; margin-bottom: 12px; }
-    .demo-output .result .meta { font-size: 0.82rem; color: #555; margin-bottom: 16px; display: flex; gap: 16px; flex-wrap: wrap; }
+    .demo-output .result h3 { color: var(--text); font-size: 1.1rem; margin-bottom: 12px; }
+    .demo-output .result .meta { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px; display: flex; gap: 16px; flex-wrap: wrap; }
     .demo-output .result .meta span { display: flex; align-items: center; gap: 4px; }
-    .demo-output .result .explanation { color: #bbb; }
-    .demo-output .result .highlight { color: var(--green); font-weight: 600; }
-    .demo-output .result .repo-link { display: inline-block; margin-top: 16px; font-size: 0.82rem; color: var(--cyan); }
+    .demo-output .result .explanation { color: #5a4d6e; }
+    .demo-output .result .highlight { color: #7a9a6a; font-weight: 600; }
+    .demo-output .result .repo-link { display: inline-block; margin-top: 16px; font-size: 0.82rem; color: #9b7db8; }
 
-    .demo-output .error { color: #ff6b6b; text-align: center; padding: 30px 0; }
+    .demo-output .error { color: #c07060; text-align: center; padding: 30px 0; }
 
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
     /* FEATURES */
     section { position: relative; z-index: 1; padding: 70px 0; }
-    section h2 { font-size: 1.8rem; font-weight: 900; text-align: center; margin-bottom: 10px; letter-spacing: -1px; }
-    section .sub { text-align: center; color: #666; margin-bottom: 40px; font-size: 0.95rem; }
+    section h2 { font-size: 1.8rem; font-weight: 900; text-align: center; margin-bottom: 10px; letter-spacing: -1px; color: var(--text); }
+    section .sub { text-align: center; color: var(--text-muted); margin-bottom: 40px; font-size: 0.95rem; }
 
-    .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .feature-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: 16px; padding: 28px 22px;
       transition: all 0.3s ease; cursor: default;
     }
-    .feature-card:hover { border-color: var(--purple); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-    .feature-card .ico { font-size: 2rem; display: block; margin-bottom: 14px; }
-    .feature-card h3 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
-    .feature-card p { font-size: 0.85rem; color: #777; line-height: 1.5; }
+    .feature-card:hover { border-color: #d4c4e0; transform: translateY(-4px); box-shadow: 0 15px 30px rgba(180, 160, 140, 0.1); }
+    .feature-card .ico { font-size: 1.2rem; font-weight: 900; display: block; margin-bottom: 14px; color: #b89ac7; }
+    .feature-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .feature-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
 
     /* HOW */
     .steps { display: flex; gap: 0; align-items: center; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
@@ -171,11 +213,11 @@
       border-radius: 14px; padding: 24px 20px; text-align: center;
       min-width: 150px; flex: 1; max-width: 190px; transition: all 0.3s;
     }
-    .step:hover { border-color: var(--cyan); transform: translateY(-3px); }
-    .step .si { font-size: 2rem; display: block; margin-bottom: 8px; }
-    .step h4 { color: #fff; font-size: 0.9rem; margin-bottom: 4px; }
-    .step p { color: #555; font-size: 0.78rem; }
-    .step-arrow { font-size: 1.4rem; color: var(--purple); padding: 0 8px; flex-shrink: 0; animation: arrowPulse 2s ease-in-out infinite; }
+    .step:hover { border-color: #b8e4d8; transform: translateY(-3px); }
+    .step .si { font-size: 1.2rem; font-weight: 900; display: block; margin-bottom: 8px; color: #b89ac7; }
+    .step h4 { color: var(--text); font-size: 0.9rem; margin-bottom: 4px; }
+    .step p { color: var(--text-dim); font-size: 0.78rem; }
+    .step-arrow { font-size: 1.4rem; color: #d4c4e0; padding: 0 8px; flex-shrink: 0; animation: arrowPulse 2s ease-in-out infinite; }
     @keyframes arrowPulse { 0%, 100% { opacity: 0.4; transform: translateX(0); } 50% { opacity: 1; transform: translateX(4px); } }
 
     /* EXAMPLES */
@@ -184,21 +226,21 @@
       background: var(--card); border: 1px solid var(--border);
       border-radius: 14px; padding: 24px; transition: all 0.3s; cursor: pointer;
     }
-    .example-card:hover { border-color: var(--yellow); transform: translateY(-2px); }
-    .example-card .repo-name { font-family: 'Inter', monospace; font-size: 0.82rem; color: var(--cyan); margin-bottom: 8px; }
-    .example-card .desc { font-size: 0.85rem; color: #888; margin-bottom: 10px; }
-    .example-card .result-preview { font-size: 0.88rem; color: #ccc; line-height: 1.5; }
+    .example-card:hover { border-color: #f0e2b0; transform: translateY(-2px); }
+    .example-card .repo-name { font-family: 'Inter', monospace; font-size: 0.82rem; color: #9b7db8; margin-bottom: 8px; }
+    .example-card .desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; }
+    .example-card .result-preview { font-size: 0.88rem; color: #5a4d6e; line-height: 1.5; }
 
     /* CTA */
     .cta { text-align: center; padding: 60px 0; }
-    .cta p { color: #555; margin-bottom: 24px; }
+    .cta p { color: var(--text-muted); margin-bottom: 24px; }
 
     /* FOOTER */
     footer {
       position: relative; z-index: 1;
       border-top: 1px solid var(--border);
       padding: 36px 0; text-align: center;
-      color: #444; font-size: 0.8rem;
+      color: var(--text-dim); font-size: 0.8rem;
     }
 
     @media (max-width: 768px) {
@@ -222,6 +264,7 @@
         <a href="#how">How</a>
         <a href="#features">Features</a>
         <a href="https://github.com/racharajeshAI/explain-this-repo">GitHub</a>
+        <button class="settings-btn" onclick="toggleSettings()">Settings</button>
       </div>
     </div>
   </nav>
@@ -233,6 +276,34 @@
     </div>
   </section>
 
+  <!-- SETTINGS PANEL -->
+  <div class="settings-panel" id="settingsPanel">
+    <h3>Local LLM</h3>
+    <div class="setting-row">
+      <label>Use Local LLM</label>
+      <div class="toggle-wrap">
+        <div class="toggle" id="localToggle" onclick="toggleLocal()"></div>
+        <span style="font-size:0.82rem;color:var(--text-muted);" id="toggleLabel">Off</span>
+      </div>
+    </div>
+    <div id="llmDetect" style="display:none;">
+      <div class="setting-row" id="endpointRow">
+        <label>Endpoint</label>
+        <input type="url" id="localEndpoint" placeholder="http://localhost:11434" value="http://localhost:11434">
+      </div>
+      <div class="setting-row">
+        <label></label>
+        <button onclick="detectModels()" style="background:none;border:1px solid var(--border);border-radius:8px;padding:8px 16px;font-size:0.82rem;color:var(--text-muted);cursor:pointer;font-family:inherit;transition:all 0.3s;">Scan for models</button>
+        <span id="detectStatus" style="font-size:0.78rem;color:var(--text-dim);"></span>
+      </div>
+      <div class="setting-row" id="modelSelectRow" style="display:none;">
+        <label>Model</label>
+        <select id="modelSelect" style="flex:1;background:#f8f3eb;border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-size:0.85rem;font-family:inherit;outline:none;cursor:pointer;"></select>
+      </div>
+    </div>
+    <div class="setting-note" id="settingsNote">Connect Ollama or any OpenAI-compatible local server. Hit scan to find running models.</div>
+  </div>
+
   <!-- THE MAIN EVENT -->
   <div class="demo-wrap">
     <div class="demo-box">
@@ -241,7 +312,7 @@
         <span>explain-this-repo</span>
       </div>
       <div class="demo-input-area">
-        <input type="text" id="repoUrl" placeholder="paste any github url..." value="https://github.com/racharajeshAI/llm-evaluator-harness">
+        <input type="text" id="repoUrl" placeholder="paste any github url..." value="https://github.com/fastapi/fastapi">
         <button class="demo-go" id="goBtn" onclick="runDemo()">Explain</button>
       </div>
       <div class="demo-output" id="output">
@@ -256,25 +327,25 @@
       <p class="sub">No install. No API key. Just a browser.</p>
       <div class="steps">
         <div class="step">
-          <span class="si">&#x1F4CB;</span>
+          <span class="si">1</span>
           <h4>Paste URL</h4>
           <p>any public github repo</p>
         </div>
         <span class="step-arrow">&rarr;</span>
         <div class="step">
-          <span class="si">&#x1F50D;</span>
+          <span class="si">2</span>
           <h4>Reads everything</h4>
           <p>README, description, files</p>
         </div>
         <span class="step-arrow">&rarr;</span>
         <div class="step">
-          <span class="si">&#x1F9E0;</span>
+          <span class="si">3</span>
           <h4>Translates</h4>
           <p>jargon &rarr; human words</p>
         </div>
         <span class="step-arrow">&rarr;</span>
         <div class="step">
-          <span class="si">&#x2728;</span>
+          <span class="si">4</span>
           <h4>Plain English</h4>
           <p>anyone can understand</p>
         </div>
@@ -282,25 +353,47 @@
     </div>
   </section>
 
-  <section id="features" style="background: rgba(124,58,237,0.03);">
+  <!-- CLI SECTION -->
+  <section id="cli" style="background: rgba(184, 228, 216, 0.08);">
+    <div class="container">
+      <h2>Prefer the terminal?</h2>
+      <p class="sub">There's a CLI for that. One-time setup, then just paste URLs.</p>
+      <div style="max-width:600px;margin:0 auto;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;font-family:monospace;font-size:0.88rem;line-height:1.8;color:var(--text);">
+        <div style="color:var(--text-dim);margin-bottom:8px;"># first time (ask your son to do this, takes 30 seconds)</div>
+        <div>git clone https://github.com/racharajeshAI/explain-this-repo.git</div>
+        <div>cd explain-this-repo</div>
+        <div>pip install -r requirements.txt</div>
+        <div style="margin-top:12px;color:var(--text-dim);"># then anytime</div>
+        <div>python main.py https://github.com/fastapi/fastapi</div>
+        <div style="margin-top:12px;color:var(--text-dim);"># output saved as fastapi_explained.md</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" style="background: rgba(212, 196, 224, 0.08);">
     <div class="container">
       <h2>Why this exists</h2>
       <p class="sub">Because README files are written for developers, not humans.</p>
       <div class="feature-grid">
         <div class="feature-card">
-          <span class="ico">&#x1F469;&#x200D;&#x1F4BB;</span>
+          <span class="ico">No Install</span>
           <h3>No install needed</h3>
           <p>Works right in your browser. No terminal, no Python, no npm. Just paste and go.</p>
         </div>
         <div class="feature-card">
-          <span class="ico">&#x1F4A1;</span>
+          <span class="ico">Reads Repos</span>
           <h3>Actually reads the repo</h3>
           <p>Doesn't just guess from the title. Reads the real README, file structure, and description.</p>
         </div>
         <div class="feature-card">
-          <span class="ico">&#x1F916;</span>
+          <span class="ico">No Keys</span>
           <h3>No API key needed</h3>
           <p>Uses GitHub's public API. No accounts, no signups, no "enter your credit card."</p>
+        </div>
+        <div class="feature-card">
+          <span class="ico">Local LLM</span>
+          <h3>Connect your own LLM</h3>
+          <p>Got Ollama or any local model running? Connect it in Settings for AI-powered explanations.</p>
         </div>
       </div>
     </div>
@@ -310,7 +403,7 @@
     <div class="container">
       <h2>That's it. Try it above.</h2>
       <p>No signup, no download, no catch. Just paste a URL.</p>
-      <a href="https://github.com/racharajeshAI/explain-this-repo" class="btn btn-ghost" style="display:inline-block;padding:12px 28px;border:1px solid #30363d;border-radius:10px;color:#ccc;font-weight:600;">View Source on GitHub</a>
+      <a href="https://github.com/racharajeshAI/explain-this-repo" class="btn btn-ghost" style="display:inline-block;padding:12px 28px;border:1px solid var(--border);border-radius:10px;color:#9b7db8;font-weight:600;">View Source on GitHub</a>
     </div>
   </section>
 
@@ -321,6 +414,152 @@
   </footer>
 
   <script>
+    // ---- Local LLM settings ----
+    let useLocalLLM = false;
+    let availableModels = [];
+
+    function toggleSettings() {
+      document.getElementById('settingsPanel').classList.toggle('open');
+    }
+
+    function toggleLocal() {
+      useLocalLLM = !useLocalLLM;
+      const toggle = document.getElementById('localToggle');
+      const label = document.getElementById('toggleLabel');
+      const llmDetect = document.getElementById('llmDetect');
+      const note = document.getElementById('settingsNote');
+
+      if (useLocalLLM) {
+        toggle.classList.add('active');
+        label.textContent = 'On';
+        llmDetect.style.display = 'block';
+        detectModels();
+      } else {
+        toggle.classList.remove('active');
+        label.textContent = 'Off';
+        llmDetect.style.display = 'none';
+        note.textContent = 'Connect Ollama or any OpenAI-compatible local server. Hit scan to find running models.';
+      }
+    }
+
+    async function detectModels() {
+      const status = document.getElementById('detectStatus');
+      const selectRow = document.getElementById('modelSelectRow');
+      const select = document.getElementById('modelSelect');
+      const endpoint = document.getElementById('localEndpoint').value.trim().replace(/\/+$/, '');
+      const note = document.getElementById('settingsNote');
+
+      status.textContent = 'scanning...';
+      status.style.color = 'var(--text-dim)';
+      availableModels = [];
+
+      // Try Ollama /api/tags
+      try {
+        const resp = await fetch(endpoint + '/api/tags', { signal: AbortSignal.timeout(3000) });
+        if (resp.ok) {
+          const data = await resp.json();
+          if (data.models && data.models.length > 0) {
+            availableModels = data.models.map(m => m.name || m.model);
+            select.innerHTML = availableModels.map(m => `<option value="${m}">${m}</option>`).join('');
+            selectRow.style.display = 'flex';
+            status.textContent = `found ${availableModels.length} model${availableModels.length > 1 ? 's' : ''}`;
+            status.style.color = '#7a9a6a';
+            note.textContent = 'Select a model from the list. Models are pulled from your local Ollama server.';
+            return;
+          }
+        }
+      } catch (e) {}
+
+      // Try OpenAI-compatible /v1/models
+      try {
+        const base = endpoint.replace(/\/v1\/?$/, '');
+        const resp = await fetch(base + '/v1/models', { signal: AbortSignal.timeout(3000) });
+        if (resp.ok) {
+          const data = await resp.json();
+          const models = data.data || data.models || [];
+          if (models.length > 0) {
+            availableModels = models.map(m => m.id || m.name || m);
+            select.innerHTML = availableModels.map(m => `<option value="${m}">${m}</option>`).join('');
+            selectRow.style.display = 'flex';
+            status.textContent = `found ${availableModels.length} model${availableModels.length > 1 ? 's' : ''}`;
+            status.style.color = '#7a9a6a';
+            note.textContent = 'Select a model from the list. Detected an OpenAI-compatible server.';
+            return;
+          }
+        }
+      } catch (e) {}
+
+      // Try LM Studio /v1/models on common port
+      try {
+        const resp = await fetch('http://localhost:1234/v1/models', { signal: AbortSignal.timeout(3000) });
+        if (resp.ok) {
+          const data = await resp.json();
+          const models = data.data || [];
+          if (models.length > 0) {
+            document.getElementById('localEndpoint').value = 'http://localhost:1234';
+            availableModels = models.map(m => m.id || m.name || m);
+            select.innerHTML = availableModels.map(m => `<option value="${m}">${m}</option>`).join('');
+            selectRow.style.display = 'flex';
+            status.textContent = `found ${availableModels.length} model on LM Studio`;
+            status.style.color = '#7a9a6a';
+            note.textContent = 'Detected LM Studio. Select a model to use.';
+            return;
+          }
+        }
+      } catch (e) {}
+
+      status.innerHTML = 'nothing found. if ollama is running, restart it with: <code style="background:#f8f3eb;padding:2px 6px;border-radius:4px;font-size:0.75rem;">OLLAMA_ORIGINS=\'*\' ollama serve</code>';
+      status.style.color = '#c07060';
+      note.textContent = 'The browser blocks requests to localhost by default. Ollama needs the CORS flag to allow the website to talk to it.';
+      selectRow.style.display = 'none';
+    }
+
+    async function callLocalLLM(prompt) {
+      const endpoint = document.getElementById('localEndpoint').value.trim().replace(/\/+$/, '');
+      const select = document.getElementById('modelSelect');
+      const model = select && select.value ? select.value : '';
+
+      // Try Ollama-style API first
+      try {
+        const resp = await fetch(endpoint + '/api/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: model || 'llama3',
+            prompt: prompt,
+            stream: false
+          })
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          return data.response || data.text || data.choices?.[0]?.text || JSON.stringify(data);
+        }
+      } catch (e) {}
+
+      // Try OpenAI-compatible API
+      try {
+        const base = endpoint.replace(/\/v1\/?$/, '');
+        const resp = await fetch(base + '/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: model || 'local-model',
+            messages: [
+              { role: 'system', content: 'You explain GitHub repos in plain, friendly English. No jargon. Keep it conversational.' },
+              { role: 'user', content: prompt }
+            ],
+            stream: false
+          })
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          return data.choices?.[0]?.message?.content || JSON.stringify(data);
+        }
+      } catch (e) {}
+
+      throw new Error('Could not connect to local LLM. Make sure the server is running and try hitting Scan again.');
+    }
+
     // ---- GitHub API helpers ----
     async function fetchRepo(owner, repo) {
       const r = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
@@ -343,19 +582,37 @@
     }
 
     // ---- Text extraction from README ----
+    function cleanMarkdown(text) {
+      return text
+        .replace(/<[^>]*>/g, '')           // strip HTML tags
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, '') // strip images ![alt](url)
+        .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1') // links [text](url) -> text
+        .replace(/`[^`]*`/g, '')           // strip inline code
+        .replace(/\*\*([^*]*)\*\*/g, '$1') // bold
+        .replace(/\*([^*]*)\*/g, '$1')     // italic
+        .replace(/#{1,6}\s/g, '')          // heading markers
+        .replace(/\s+/g, ' ')             // collapse whitespace
+        .trim();
+    }
+
     function extractFirstParagraph(readme) {
       const lines = readme.split('\n');
       let para = '';
       let started = false;
       for (const line of lines) {
         const trimmed = line.trim();
-        if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('!') || trimmed.startsWith('[') && trimmed.includes(']:')) {
-          if (started && para.length > 30) break;
-          continue;
-        }
+        // skip empty, headings, images, badges, reference links, lists, code blocks, HTML
+        if (!trimmed) { if (started && para.length > 30) break; continue; }
+        if (trimmed.startsWith('#') || trimmed.startsWith('!') || trimmed.startsWith('<')) continue;
+        if (trimmed.startsWith('[') && trimmed.includes(']:')) continue;
         if (trimmed.startsWith('>') || trimmed.startsWith('-') || trimmed.startsWith('*') || trimmed.startsWith('```')) continue;
+        if (trimmed.includes('shields.io') || trimmed.includes('badge') || trimmed.includes('img.shields')) continue;
+        // skip lines that are mostly markdown/link junk
+        if ((trimmed.match(/\[/g) || []).length > 3) continue;
         started = true;
-        para += (para ? ' ' : '') + trimmed;
+        const cleaned = cleanMarkdown(trimmed);
+        if (cleaned.length < 10) continue;
+        para += (para ? ' ' : '') + cleaned;
         if (para.length > 400) break;
       }
       return para;
@@ -369,7 +626,7 @@
         const trimmed = line.trim();
         if (trimmed.match(/^[*-]\s+/) || trimmed.match(/^\d+\.\s+/)) {
           inList = true;
-          const item = trimmed.replace(/^[*-]\s+/, '').replace(/^\d+\.\s+/, '').replace(/\*\*/g, '').replace(/`[^`]*`/g, '').trim();
+          const item = cleanMarkdown(trimmed.replace(/^[*-]\s+/, '').replace(/^\d+\.\s+/, ''));
           if (item.length > 5 && item.length < 120) features.push(item);
           if (features.length >= 5) break;
         } else if (inList && !trimmed) {
@@ -490,43 +747,71 @@
       const intro = extractFirstParagraph(readme);
       const features = extractFeatures(readme);
       const fileTypes = getFileTypes(contents);
-      const purpose = detectPurpose(desc, readme, features, repoData.name, fileTypes);
 
-      // Build the explanation
+      let explanation;
+
+      if (useLocalLLM) {
+        // Build a prompt for the local LLM
+        let prompt = `Explain this GitHub repo like you're talking to someone's mom who doesn't know tech. No jargon at all. Use everyday analogies. Keep it short and friendly.\n\n`;
+        prompt += `Repo: ${owner}/${repo}\n`;
+        if (desc) prompt += `Description: ${desc}\n`;
+        if (lang) prompt += `Language: ${lang}\n`;
+        prompt += `Stars: ${stars}\n`;
+        if (intro) prompt += `README intro: ${intro.substring(0, 500)}\n`;
+        if (features.length > 0) prompt += `Features: ${features.join('; ')}\n`;
+        if (fileTypes.length > 0) prompt += `File types: ${fileTypes.join(', ')}\n`;
+        prompt += `\nKeep it under 200 words. Be conversational and use analogies when helpful.`;
+
+        try {
+          explanation = await callLocalLLM(prompt);
+        } catch (err) {
+          return `<div class="error">${err.message}</div>`;
+        }
+      }
+
+      // Build the HTML result
       let html = `<div class="result">`;
       html += `<h3>${title}</h3>`;
       html += `<div class="meta">`;
-      html += `<span>&#x2B50; ${formatStars(stars)} stars</span>`;
-      if (lang) html += `<span>&#x1F4BB; ${langNames[lang] || lang}</span>`;
-      html += `<span>&#x1F4C1; ${contents.length} files</span>`;
+      html += `<span>${formatStars(stars)} stars</span>`;
+      if (lang) html += `<span>${langNames[lang] || lang}</span>`;
+      html += `<span>${contents.length} files</span>`;
       html += `</div>`;
 
       html += `<div class="explanation">`;
-      html += `<p><strong>What it is:</strong> This is basically ${purpose}.`;
 
-      if (intro && intro.length > 30) {
-        const clean = intro.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_`]/g, '').substring(0, 250);
-        html += ` ${clean}${intro.length > 250 ? '...' : ''}`;
-      }
-      html += `</p>`;
+      if (useLocalLLM && explanation) {
+        // Use the LLM's explanation directly
+        html += `<p>${explanation.replace(/\n/g, '<br>')}</p>`;
+      } else {
+        // Browser-based explanation — keep it simple for mom
+        const purpose = detectPurpose(desc, readme, features, repoData.name, fileTypes);
+        html += `<p>This is basically ${purpose}.`;
 
-      if (features.length > 0) {
-        html += `<p style="margin-top:12px;"><strong>What it does:</strong></p><ul style="margin:8px 0 0 20px;color:#999;">`;
-        for (const f of features.slice(0, 4)) {
-          html += `<li style="margin-bottom:4px;">${f}</li>`;
+        if (intro && intro.length > 30) {
+          const clean = cleanMarkdown(intro).substring(0, 200);
+          if (clean.length > 30) html += ` ${clean}${intro.length > 200 ? '...' : ''}`;
         }
-        html += `</ul>`;
-      }
+        html += `</p>`;
 
-      html += `<p style="margin-top:14px;"><span class="highlight">${starVibe(stars)}</span>`;
-      if (lang) {
-        const vibe = langVibes[lang.toLowerCase()];
-        if (vibe) html += ` Written in ${vibe}.`;
+        if (features.length > 0) {
+          html += `<p style="margin-top:12px;"><strong>In plain English, it:</strong></p><ul style="margin:8px 0 0 20px;color:#5a4d6e;">`;
+          for (const f of features.slice(0, 3)) {
+            html += `<li style="margin-bottom:4px;">${f}</li>`;
+          }
+          html += `</ul>`;
+        }
+
+        html += `<p style="margin-top:14px;"><span class="highlight">${starVibe(stars)}</span>`;
+        if (lang) {
+          const vibe = langVibes[lang.toLowerCase()];
+          if (vibe) html += ` Written in ${vibe}.`;
+        }
+        html += `</p>`;
       }
-      html += `</p>`;
 
       if (topics.length > 0) {
-        html += `<p style="margin-top:10px;font-size:0.82rem;color:#555;">Tagged: ${topics.slice(0, 5).join(', ')}</p>`;
+        html += `<p style="margin-top:10px;font-size:0.82rem;color:var(--text-dim);">Tagged: ${topics.slice(0, 5).join(', ')}</p>`;
       }
 
       html += `</div>`;
