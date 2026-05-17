@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explain This Repo to My Mom</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --pink: #ff2d78;
+      --purple: #7c3aed;
+      --blue: #3b82f6;
+      --cyan: #06b6d4;
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --bg: #0a0a0f;
+      --card: #12121a;
+      --border: #1e1e2e;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: #e0e0e0;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--cyan); text-decoration: none; }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+    /* FLOATING ORBS */
+    .orbs {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      animation: float 20s ease-in-out infinite;
+    }
+    .orb-1 { width: 400px; height: 400px; background: var(--pink); top: -100px; left: -100px; animation-delay: 0s; }
+    .orb-2 { width: 300px; height: 300px; background: var(--purple); top: 50%; right: -80px; animation-delay: -7s; }
+    .orb-3 { width: 350px; height: 350px; background: var(--cyan); bottom: -50px; left: 30%; animation-delay: -14s; }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -40px) scale(1.1); }
+      50% { transform: translate(-20px, 20px) scale(0.9); }
+      75% { transform: translate(40px, 30px) scale(1.05); }
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 16px 0;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links { display: flex; gap: 24px; }
+    .nav-links a {
+      font-size: 0.85rem;
+      color: #666;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 1;
+      padding: 120px 0 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: #888;
+      margin-bottom: 24px;
+      animation: fadeInUp 0.6s ease-out;
+    }
+    .hero-badge span { color: var(--green); }
+    .hero h1 {
+      font-size: 3.4rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      letter-spacing: -2px;
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+    }
+    .hero h1 .grad {
+      background: linear-gradient(135deg, var(--pink), var(--purple), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: #777;
+      max-width: 500px;
+      margin: 0 auto 36px;
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.6s ease-out 0.3s both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      font-family: inherit;
+    }
+    .btn-glow {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff;
+      box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+    }
+    .btn-glow:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(124, 58, 237, 0.5);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: #ccc;
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    /* DEMO BOX */
+    .demo {
+      position: relative;
+      z-index: 1;
+      margin: 40px auto 0;
+      max-width: 600px;
+      animation: fadeInUp 0.6s ease-out 0.4s both;
+    }
+    .demo-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: left;
+    }
+    .demo-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .demo-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .demo-dot:nth-child(1) { background: #ff5f57; }
+    .demo-dot:nth-child(2) { background: #ffbd2e; }
+    .demo-dot:nth-child(3) { background: #28ca41; }
+    .demo-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .demo-input input {
+      flex: 1;
+      background: #0a0a12;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #ccc;
+      font-size: 0.85rem;
+      font-family: 'Inter', monospace;
+      outline: none;
+    }
+    .demo-input input:focus { border-color: var(--purple); }
+    .demo-input button {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.2s;
+    }
+    .demo-input button:hover { transform: scale(1.05); }
+    .demo-output {
+      background: #0a0a12;
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 0.88rem;
+      color: #aaa;
+      min-height: 80px;
+      transition: all 0.3s;
+    }
+    .demo-output .typing { color: var(--cyan); }
+    .demo-output strong { color: #fff; }
+    .demo-output .highlight { color: var(--green); }
+
+    /* FEATURES GRID */
+    section { position: relative; z-index: 1; padding: 80px 0; }
+    section h2 {
+      font-size: 2rem;
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 12px;
+      letter-spacing: -1px;
+    }
+    section .sub {
+      text-align: center;
+      color: #666;
+      margin-bottom: 48px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 22px;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+    .feature-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .feature-card .ico {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 14px;
+    }
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .feature-card p {
+      font-size: 0.85rem;
+      color: #777;
+      line-height: 1.5;
+    }
+
+    /* GRID BENTO */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+    .bento-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 22px;
+      transition: all 0.3s;
+    }
+    .bento-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+    .bento-card:nth-child(1) { grid-column: span 2; }
+    .bento-card:nth-child(4) { grid-column: span 2; }
+    .bento-card .ico { font-size: 1.8rem; display: block; margin-bottom: 10px; }
+    .bento-card h3 { font-size: 0.95rem; color: #fff; margin-bottom: 4px; }
+    .bento-card p { font-size: 0.82rem; color: #666; }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: flex;
+      gap: 0;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+    }
+    .step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 20px;
+      text-align: center;
+      min-width: 160px;
+      flex: 1;
+      max-width: 200px;
+      transition: all 0.3s;
+    }
+    .step:hover {
+      border-color: var(--cyan);
+      transform: translateY(-3px);
+    }
+    .step .si { font-size: 2rem; display: block; margin-bottom: 8px; }
+    .step h4 { color: #fff; font-size: 0.9rem; margin-bottom: 4px; }
+    .step p { color: #555; font-size: 0.78rem; }
+    .step-arrow {
+      font-size: 1.4rem;
+      color: var(--purple);
+      padding: 0 8px;
+      flex-shrink: 0;
+      animation: arrowPulse 2s ease-in-out infinite;
+    }
+    @keyframes arrowPulse {
+      0%, 100% { opacity: 0.4; transform: translateX(0); }
+      50% { opacity: 1; transform: translateX(4px); }
+    }
+
+    /* WHY LOCAL */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .why-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      display: flex;
+      gap: 16px;
+      transition: all 0.3s;
+    }
+    .why-card:hover {
+      border-color: var(--green);
+      transform: translateY(-2px);
+    }
+    .why-card .wi { font-size: 1.4rem; flex-shrink: 0; }
+    .why-card h4 { color: #fff; font-size: 0.92rem; margin-bottom: 3px; }
+    .why-card p { color: #666; font-size: 0.85rem; }
+
+    /* EXAMPLES */
+    .example-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .example-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: all 0.3s;
+    }
+    .example-card:hover { border-color: var(--yellow); transform: translateY(-2px); }
+    .example-card .repo-name {
+      font-family: 'Inter', monospace;
+      font-size: 0.82rem;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+    .example-card .before {
+      font-size: 0.82rem;
+      color: #555;
+      margin-bottom: 8px;
+      text-decoration: line-through;
+      text-decoration-color: var(--pink);
+    }
+    .example-card .after {
+      font-size: 0.88rem;
+      color: #ccc;
+    }
+
+    /* SETUP */
+    .setup-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .setup-step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .setup-num {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .setup-step h4 { color: #fff; font-size: 0.92rem; margin-bottom: 3px; }
+    .setup-step p { color: #666; font-size: 0.85rem; }
+    .setup-step code {
+      background: #1a1a28;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--cyan);
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 80px 0;
+      background: linear-gradient(180deg, transparent, rgba(124, 58, 237, 0.05));
+    }
+    .cta h2 {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+    }
+    .cta .sub { margin-bottom: 32px; }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 36px 0;
+      text-align: center;
+      color: #444;
+      font-size: 0.8rem;
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.2rem; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .bento { grid-template-columns: 1fr 1fr; }
+      .bento-card:nth-child(1),
+      .bento-card:nth-child(4) { grid-column: span 1; }
+      .steps { flex-direction: column; }
+      .step-arrow { transform: rotate(90deg); }
+      .why-grid, .example-cards { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 480px) {
+      .bento { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <nav>
+    <div class="container">
+      <div class="nav-logo">repo-to-mom</div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how">How</a>
+        <a href="#examples">Examples</a>
+        <a href="#setup">Setup</a>
+        <a href="https://github.com/racharajeshAI/explain-this-repo">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge"><span>*</span> your mom called. she wants to understand your github.</div>
+      <h1>Explain any repo<br>to <span class="grad">literally anyone</span></h1>
+      <p>Paste a GitHub URL. Get a plain-English explanation. No jargon. No code talk. Just "here's what this thing does."</p>
+      <div class="hero-btns">
+        <a href="#setup" class="btn btn-glow">Get Started</a>
+        <a href="https://github.com/racharajeshAI/explain-this-repo" class="btn btn-ghost">View Source</a>
+      </div>
+
+      <div class="demo">
+        <div class="demo-box">
+          <div class="demo-header">
+            <div class="demo-dot"></div>
+            <div class="demo-dot"></div>
+            <div class="demo-dot"></div>
+          </div>
+          <div class="demo-input">
+            <input type="text" id="demoUrl" placeholder="paste a github url..." value="https://github.com/fastapi/fastapi">
+            <button onclick="runDemo()">Explain</button>
+          </div>
+          <div class="demo-output" id="demoOutput">
+            <span style="color:#555;">click "explain" to see the magic...</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <h2>What does it do?</h2>
+      <p class="sub">Three things. All of them useful. None of them require a CS degree.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <span class="ico">&#x1F9E0;</span>
+          <h3>Reads the repo for you</h3>
+          <p>Grabs the README, file structure, and description. Feeds it all to an AI with one job: make it make sense.</p>
+        </div>
+        <div class="feature-card">
+          <span class="ico">&#x1F4AD;</span>
+          <h3>Translates the jargon</h3>
+          <p>"RESTful API with middleware abstraction" becomes "it helps apps talk to each other." You're welcome.</p>
+        </div>
+        <div class="feature-card">
+          <span class="ico">&#x1F4E5;</span>
+          <h3>Saves the explanation</h3>
+          <p>Outputs a clean markdown file you can share, paste into Slack, or send to your mom directly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: rgba(124, 58, 237, 0.03);">
+    <div class="container">
+      <h2>Also does this stuff</h2>
+      <p class="sub">The features I added at 2am because "eh, why not."</p>
+      <div class="bento">
+        <div class="bento-card">
+          <span class="ico">&#x1F30D;</span>
+          <h3>Works on any public repo</h3>
+          <p>GitHub, doesn't matter. If it's public, it can explain it.</p>
+        </div>
+        <div class="bento-card">
+          <span class="ico">&#x26A1;</span>
+          <h3>Fast</h3>
+          <p>Takes about 10 seconds. Less time than reading a bad README.</p>
+        </div>
+        <div class="bento-card">
+          <span class="ico">&#x1F4BB;</span>
+          <h3>CLI friendly</h3>
+          <p>One command. That's it. No accounts, no dashboards.</p>
+        </div>
+        <div class="bento-card">
+          <span class="ico">&#x1F9D1;&#x200D;&#x1F4BB;</span>
+          <h3>Uses GPT-4o</h3>
+          <p>Smart enough to understand architecture, dumb enough to explain it simply.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="container">
+      <h2>How it works</h2>
+      <p class="sub">Paste, wait, understand. That's the whole flow.</p>
+      <div class="steps">
+        <div class="step">
+          <span class="si">&#x1F4CB;</span>
+          <h4>Paste URL</h4>
+          <p>any github link</p>
+        </div>
+        <span class="step-arrow">&rarr;</span>
+        <div class="step">
+          <span class="si">&#x1F50D;</span>
+          <h4>Reads everything</h4>
+          <p>README, files, description</p>
+        </div>
+        <span class="step-arrow">&rarr;</span>
+        <div class="step">
+          <span class="si">&#x1F9E0;</span>
+          <h4>AI translates</h4>
+          <p>jargon &rarr; human words</p>
+        </div>
+        <span class="step-arrow">&rarr;</span>
+        <div class="step">
+          <span class="si">&#x1F4E5;</span>
+          <h4>Get explanation</h4>
+          <p>readable by actual humans</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="examples">
+    <div class="container">
+      <h2>See it in action</h2>
+      <p class="sub">Before and after. From README gibberish to actual English.</p>
+      <div class="example-cards">
+        <div class="example-card">
+          <div class="repo-name">fastapi/fastapi</div>
+          <div class="before">"FastAPI framework, high performance, easy to learn, fast to code, ready for production"</div>
+          <div class="after">"Imagine a restaurant waiter. You tell it what you want, the kitchen makes it, and it arrives correct and fast. That's what this does for apps."</div>
+        </div>
+        <div class="example-card">
+          <div class="repo-name">facebook/react</div>
+          <div class="before">"A JavaScript library for building user interfaces using a virtual DOM and declarative components"</div>
+          <div class="after">"It's like LEGO for websites. You build small pieces, snap them together, and it handles making everything update when stuff changes."</div>
+        </div>
+        <div class="example-card">
+          <div class="repo-name">torvalds/linux</div>
+          <div class="before">"Linux kernel source tree with architecture-specific implementations and driver subsystems"</div>
+          <div class="after">"The engine inside most of the world's computers, phones, and servers. It's the thing that makes hardware actually do stuff."</div>
+        </div>
+        <div class="example-card">
+          <div class="repo-name">openai/whisper</div>
+          <div class="before">"General-purpose speech recognition model trained on diverse multilingual audio data"</div>
+          <div class="after">"It listens to audio and writes down what people said. Works in tons of languages. Surprisingly good at it too."</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="setup" style="background: rgba(124, 58, 237, 0.03);">
+    <div class="container">
+      <h2>Get it running</h2>
+      <p class="sub">2 minutes. 3 commands. 1 API key.</p>
+      <div class="setup-steps">
+        <div class="setup-step">
+          <div class="setup-num">1</div>
+          <div>
+            <h4>Clone it</h4>
+            <p><code>git clone https://github.com/racharajeshAI/explain-this-repo.git</code></p>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="setup-num">2</div>
+          <div>
+            <h4>Install dependencies</h4>
+            <p><code>pip install -r requirements.txt</code></p>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="setup-num">3</div>
+          <div>
+            <h4>Add your API key</h4>
+            <p><code>cp .env.example .env</code> then add your OpenAI key</p>
+          </div>
+        </div>
+        <div class="setup-step">
+          <div class="setup-num">4</div>
+          <div>
+            <h4>Explain something</h4>
+            <p><code>python main.py https://github.com/fastapi/fastapi</code></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <h2>Stop reading bad READMEs.</h2>
+      <p class="sub">Let the robot do it. It's better at it anyway.</p>
+      <a href="https://github.com/racharajeshAI/explain-this-repo" class="btn btn-glow">Star on GitHub</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>Built by <a href="https://github.com/racharajeshAI">racharajeshAI</a> &middot; MIT License &middot; powered by OpenAI + too much coffee</p>
+    </div>
+  </footer>
+
+  <script>
+    const demos = {
+      'https://github.com/fastapi/fastapi': `<strong>fastapi/fastapi</strong><br><br>Imagine you're ordering food at a restaurant. You tell the waiter what you want, the kitchen makes it, and it arrives at your table hot and correct. <span class="highlight">FastAPI is like that waiter for apps on your phone or website.</span> It takes requests, sends them to the right place, and brings back the answer — really, really fast.`,
+
+      'https://github.com/facebook/react': `<strong>facebook/react</strong><br><br>Think of building a website like building with LEGO. You make small pieces — a button, a header, a list — and snap them together. <span class="highlight">React is the instruction booklet that tells the pieces how to work together</span> and how to update themselves when something changes, without rebuilding the whole thing.`,
+
+      'https://github.com/torvalds/linux': `<strong>torvalds/linux</strong><br><br>You know how your phone, your laptop, and most of the internet's servers all need something to make the hardware actually work? <span class="highlight">Linux is that something.</span> It's the engine under the hood. Most of the world's computers run on it, even if you've never heard of it.`,
+
+      'default': `<strong>That repo</strong><br><br>Okay so this is basically a tool that helps people do <span class="highlight">[specific thing]</span> without needing to understand all the technical stuff under the hood. Think of it like a translator — it takes complicated code and turns it into something your brain can actually process. Pretty neat, honestly.`
+    };
+
+    function runDemo() {
+      const url = document.getElementById('demoUrl').value.trim();
+      const output = document.getElementById('demoOutput');
+      output.innerHTML = '<span class="typing">reading repo...</span>';
+
+      setTimeout(() => {
+        output.innerHTML = '<span class="typing">translating jargon...</span>';
+      }, 600);
+
+      setTimeout(() => {
+        const key = Object.keys(demos).find(k => url.includes(k.replace('https://github.com/', '')));
+        output.innerHTML = demos[key] || demos['default'];
+      }, 1400);
+    }
+  </script>
+
+</body>
+</html>
